@@ -21,7 +21,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.enthus.note",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -39,7 +39,9 @@
         "resizable": true,
         "title": "enenthus-notes",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "minWidth": 300,
+        "minHeight": 400
       }
     ]
   }

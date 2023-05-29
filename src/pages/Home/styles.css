@@ -1,0 +1,46 @@
+.main-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-container {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--main-color);
+}
+
+.bottom-main-container {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+
+/* perticuler column start */
+.column {
+    border: 0.1rem solid black;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.first-column {
+    background-color: var(--first-gray);
+    flex: 0.65;
+}
+
+.second-column {
+    background-color: var(--first-gray);
+    flex: 0.8;
+}
+
+.main-column {
+    background-color: var(--first-gray);
+    flex: 4;
+}
+
+@media screen and (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+}
