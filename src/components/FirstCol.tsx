@@ -1,9 +1,28 @@
+import { useNoteStore } from "../store/Notes";
+
 function FirstCol() {
+
+    const { note_data } = useNoteStore();
+
+    const column_item = ({ categoryName, index }: {
+        categoryName: string, index: string
+    }) => {
+        return (
+            <li key={index} className="first-col-item-container">
+                {categoryName}
+            </li>
+        );
+    }
+
     return (
         <div
             className='column first-column'
         >
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae libero non nisi cumque deleniti veniam maxime eligendi laboriosam pariatur porro quia delectus esse optio labore perspiciatis est explicabo, magni voluptatibus earum ducimus culpa aut suscipit dicta at! Dolore at dolorem provident commodi adipisci dolores quo laboriosam sed nesciunt alias impedit labore maiores, repellendus blanditiis, nihil quam iure. Odio, culpa! Tenetur quid.</p>
+            <ul>
+                {
+                    note_data?.map((category, index) => column_item({ categoryName: category.name, index: `${index}_cat_` }))
+                }
+            </ul>
         </div>
     )
 }
