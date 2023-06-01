@@ -21,7 +21,8 @@
 /* perticuler column start */
 .column {
     padding: 1rem;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: none;
 }
 
 /* * first start */
@@ -48,7 +49,7 @@
 
 .selected-col {
     background-color: var(--selected-yellow);
-    cursor: none;
+    cursor: initial;
 }
 
 .selected-col:hover {
