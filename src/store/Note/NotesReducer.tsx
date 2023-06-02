@@ -3,7 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface NoteState {
     note_data: Category[];
-    selectedCategory: number | undefined;
+    selectedCategory?: number;
+    selectedNote?: number;
 }
 
 const initialState: NoteState = {
@@ -30,6 +31,7 @@ const initialState: NoteState = {
         },
     ],
     selectedCategory: undefined,
+    selectedNote: undefined
 }
 
 export const noteSlice = createSlice({
@@ -79,7 +81,13 @@ export const noteSlice = createSlice({
 
         // select category
         selectCategory: (state, action: PayloadAction<number>) => {
-            state.selectedCategory = action.payload
+            state.selectedCategory = action.payload;
+            state.selectedNote = undefined;
+        },
+
+        // select category
+        selectNote: (state, action: PayloadAction<number>) => {
+            state.selectedNote = action.payload;
         }
     },
 })
@@ -87,7 +95,7 @@ export const noteSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     addNote, updateNote, deleteNote,
-    selectCategory
+    selectCategory, selectNote,
 } = noteSlice.actions
 
 export default noteSlice.reducer;

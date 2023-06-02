@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { IconAward } from '@tabler/icons-react';
 
 import { RootState } from "../store/Store";
 import { SELECT_CATEGORY } from "../store/Note/NoteTypes";
@@ -40,6 +41,11 @@ function FirstCol() {
                     note_data?.map((category, index) => column_item({ categoryName: category.name, index }))
                 }
             </ul>
+
+            {/* bottom bar */}
+            <div className="bottom-container">
+                <IconAward />
+            </div>
         </div>
     )
 }
