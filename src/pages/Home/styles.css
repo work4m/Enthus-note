@@ -97,6 +97,21 @@
     font-size: large;
 }
 
+/* main logo style */
+.main-col-bg-logo-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-col-bg-logo {
+    height: 40%;
+    width: 40%;
+    object-fit: contain;
+}
+
 /* ! third main end */
 
 .selected-col {
