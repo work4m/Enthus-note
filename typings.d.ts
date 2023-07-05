@@ -3,12 +3,12 @@ interface NoteData {
 }
 
 interface Category {
-    name:          string;
+    name: string;
     content: Content[];
 }
 
 interface Content {
-    title:       string;
+    title: string;
     description: string;
-    modifyDate:  string;
+    modifyDate: string;
 }

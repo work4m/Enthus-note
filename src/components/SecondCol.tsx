@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../store/Store";
 import { SELECT_NOTE } from "../store/Note/NoteTypes";
+import EmptyData from "./EmptyData";
 
 function SecondCol() {
 
@@ -13,6 +14,12 @@ function SecondCol() {
         dispatch({ type: SELECT_NOTE, payload: index });
     }
 
+    // is notes available functions
+    const __notesAvailable = () => {
+        return (selectedCategory != undefined && note_data[selectedCategory].content.length > 0);
+    }
+
+    // render items components
     const __renderNotes = (note: Content, index: number) => {
 
         const date = new Date(note.modifyDate);
@@ -37,9 +44,15 @@ function SecondCol() {
         <div
             className='column second-column'
         >
-            <ul>
-                {note_data[selectedCategory].content.map(__renderNotes)}
-            </ul>
+            {
+                __notesAvailable()
+                    ?
+                    <ul>
+                        {note_data[selectedCategory].content.map(__renderNotes)}
+                    </ul>
+                    :
+                    <EmptyData />
+            }
         </div>
     )
 }

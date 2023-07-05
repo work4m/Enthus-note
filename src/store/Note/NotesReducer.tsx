@@ -15,7 +15,7 @@ const initialState: NoteState = {
                 {
                     title: "Note ||",
                     description: "all data found",
-                    modifyDate: "2023-05-31T10:57:48.536Z"
+                    modifyDate: "Wed Jul 05 2023 21:54:36 GMT+0530 (India Standard Time)"
                 }
             ]
         },
@@ -24,8 +24,8 @@ const initialState: NoteState = {
             content: [
                 {
                     title: "Note ||",
-                    description: "all data found",
-                    modifyDate: "2023-05-31T10:57:48.536Z"
+                    description: "all data found 1",
+                    modifyDate: "Wed Jul 05 2023 21:54:36 GMT+0530 (India Standard Time)"
                 }
             ]
         },
@@ -63,11 +63,14 @@ export const noteSlice = createSlice({
         ) => {
             const { categoryIndex, noteIndex, note } = action.payload;
             const { title = '', description = '' } = note;
-            state.note_data[categoryIndex].content[noteIndex] = {
-                title,
-                description,
-                modifyDate: new Date().toString(),
-            };
+
+            const currentChangeNote = state.note_data[categoryIndex].content[noteIndex];
+
+            if (title) currentChangeNote.title = title;
+
+            if (description) currentChangeNote.description = description;
+
+            currentChangeNote.modifyDate = new Date().toString();
         },
 
         // delete notes

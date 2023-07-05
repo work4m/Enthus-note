@@ -46,8 +46,8 @@ function* noteSaga() {
     yield takeEvery(SELECT_CATEGORY, selectCategorySaga);
 
     yield takeEvery(ADD_CATEGORY, addNoteSaga);
-    yield takeEvery(DELETE_CATEGORY, updateNoteSaga);
-    yield takeEvery(UPDATE_CATEGORY, deleteNoteSaga);
+    yield takeEvery(DELETE_CATEGORY, deleteNoteSaga);
+    yield takeEvery(UPDATE_CATEGORY, updateNoteSaga);
 }
 
 export default noteSaga;
