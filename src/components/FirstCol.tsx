@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconFolderPlus } from '@tabler/icons-react';
 
 import { RootState } from "../store/Store";
 import { SELECT_CATEGORY } from "../store/Note/NoteTypes";
+import AddFolderItem from "./AddFolderItem";
 
 function FirstCol() {
 
@@ -10,10 +12,20 @@ function FirstCol() {
 
     const { note_data, selectedCategory } = useSelector((state: RootState) => state.notes);
 
+    // status for is add folder component show
+    const [isAddNewFolder, setAddNewFolder] = useState<boolean>(false);
+
+    // add new folder press
+    const addFolderPress = () => {
+        setAddNewFolder(true);
+    }
+
+    // for select main folder
     const select_category = (index: number) => {
         dispatch({ type: SELECT_CATEGORY, payload: index });
     }
 
+    // render items for perticular item
     const column_item = ({ categoryName, index }: {
         categoryName: string, index: number
     }) => {
@@ -21,7 +33,7 @@ function FirstCol() {
 
         let containerClassList = "first-col-item-container";
 
-        if (isSelected()) {
+        if (isSelected() && !isAddNewFolder) {
             containerClassList += " selected-col"
         }
 
@@ -32,6 +44,11 @@ function FirstCol() {
         );
     }
 
+    // after press enter folder adding time
+    const onAddFolderSubmit = (data: string) => {
+        setAddNewFolder(false);
+    }
+
     return (
         <div
             className='column first-column'
@@ -40,14 +57,23 @@ function FirstCol() {
                 {
                     note_data?.map((category, index) => column_item({ categoryName: category.name, index }))
                 }
+
+                {/* when add new folder user have to show this add component */}
+                {
+                    isAddNewFolder
+                        ?
+                        <AddFolderItem onSubmit={onAddFolderSubmit} />
+                        :
+                        null
+                }
             </ul>
 
             {/* bottom bar */}
             <div className="bottom-container">
                 <div />
 
-                <div className="add-folder-icon" >
-                    <IconFolderPlus size={28} stroke={"2px"} />
+                <div className="add-item-icon" onClick={addFolderPress}>
+                    <IconFolderPlus size={28} />
                 </div>
             </div>
         </div>
