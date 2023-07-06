@@ -15,13 +15,14 @@
     display: flex;
     flex: 1;
     position: relative;
+    overflow: hidden;
 }
 
 
 /* perticuler column start */
 .column {
     padding: 1rem;
-    overflow-x: none;
+    height: 100%;
     background-color: var(--first-gray);
 }
 
@@ -41,6 +42,7 @@
 }
 
 .first-col-item-container {
+    margin: 2px 0;
     padding: 0.5rem 0.8rem;
     border-radius: 4px;
     cursor: pointer;
@@ -53,6 +55,19 @@
 .bottom-container {
     display: flex;
     align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    top: 10px;
+}
+
+.add-folder-icon {
+    padding: 0.4rem;
+    cursor: pointer;
+}
+
+.add-folder-icon:hover {
+    color: var(--selected-dark-yellow);
 }
 
 /* ! first end */
@@ -60,15 +75,18 @@
 /* * second start */
 .second-column {
     border-right: 0.8px solid var(--border-gray);
+    display: flex;
     flex: 0.8;
 }
 
 .second-column ul {
     list-style: none;
     overflow-y: auto;
+    flex: 1;
 }
 
 .second-col-item-container {
+    margin: 2px 0;
     padding: 0.3rem 0.5rem;
     border-radius: 4px;
     cursor: pointer;

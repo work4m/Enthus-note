@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { IconAward } from '@tabler/icons-react';
+import { IconFolderPlus } from '@tabler/icons-react';
 
 import { RootState } from "../store/Store";
 import { SELECT_CATEGORY } from "../store/Note/NoteTypes";
@@ -44,7 +44,11 @@ function FirstCol() {
 
             {/* bottom bar */}
             <div className="bottom-container">
-                <IconAward />
+                <div />
+
+                <div className="add-folder-icon" >
+                    <IconFolderPlus size={28} stroke={"2px"} />
+                </div>
             </div>
         </div>
     )
