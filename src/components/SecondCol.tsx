@@ -45,7 +45,6 @@ function SecondCol() {
 
     // press on create note
     const createNotePress = () => {
-
     }
 
     return (
@@ -56,7 +55,7 @@ function SecondCol() {
             <div className="top-container">
                 <SearchNoteBar />
 
-                <div className="add-item-icon add-note-icon" onClick={createNotePress}>
+                <div className="add-item-icon add-note-icon" onClick={createNotePress} title="Add Note">
                     <IconEdit size={"20px"} stroke={"1px"} />
                 </div>
             </div>

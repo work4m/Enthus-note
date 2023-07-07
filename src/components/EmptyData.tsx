@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import BG_LOGO from "./../assets/bg_logo.png";
 
 function EmptyData() {
@@ -8,4 +10,4 @@ function EmptyData() {
   )
 }
 
-export default EmptyData
+export default memo(EmptyData);

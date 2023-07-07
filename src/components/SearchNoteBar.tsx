@@ -12,4 +12,4 @@ const SearchNoteBar = (props: Props) => {
   )
 }
 
-export default SearchNoteBar
+export default SearchNoteBar;

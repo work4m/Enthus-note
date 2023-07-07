@@ -38,6 +38,29 @@ export const noteSlice = createSlice({
     name: 'notes',
     initialState,
     reducers: {
+        // ! Folders
+        // add folder
+        addFolder: (
+            state,
+            action: PayloadAction<{ name: string }>
+        ) => {
+            const { name } = action.payload;
+
+            const newCategoryFolder: Category = {
+                name,
+                content: []
+            };
+
+            state.note_data?.push(newCategoryFolder);
+        },
+
+        // update folder
+        updateFolder: () => { },
+
+        // delete folder
+        deleteFolder: () => { },
+
+        // ! NOTES
         // add notes
         addNote: (
             state,
@@ -68,7 +91,7 @@ export const noteSlice = createSlice({
 
             if (title) currentChangeNote.title = title;
 
-            if (description) currentChangeNote.description = description;
+            currentChangeNote.description = description;
 
             currentChangeNote.modifyDate = new Date().toString();
         },
@@ -98,6 +121,7 @@ export const noteSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     addNote, updateNote, deleteNote,
+    addFolder, updateFolder, deleteFolder,
     selectCategory, selectNote,
 } = noteSlice.actions
 

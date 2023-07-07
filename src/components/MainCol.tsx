@@ -3,7 +3,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { RootState } from "../store/Store";
 import EmptyData from "./EmptyData";
-import { UPDATE_CATEGORY } from "../store/Note/NoteTypes";
+import { UPDATE_NOTE } from "../store/Note/NoteTypes";
 
 // default note save time in ms
 const DEFAULT_SAVE_TIME = 500;
@@ -25,7 +25,7 @@ function MainCol() {
         };
 
         dispatch({
-            type: UPDATE_CATEGORY,
+            type: UPDATE_NOTE,
             payload
         });
     }, DEFAULT_SAVE_TIME);

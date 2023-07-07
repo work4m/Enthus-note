@@ -55,10 +55,19 @@
     padding: 0.5rem 0.8rem;
     border-radius: var(--border-radius);
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
 }
 
 .first-col-item-container:hover {
     background-color: var(--selected-color);
+}
+
+.prelist-folder-icon {
+    top: 1px;
+    right: 4px;
+    position: relative;
+    color: var(--first-dark-gray);
 }
 
 .bottom-container {

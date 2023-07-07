@@ -1,4 +1,6 @@
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+
+import PreLiIcon from "./PreLiIcon";
 
 type Props = {
     onSubmit: (data: string) => void;
@@ -6,17 +8,31 @@ type Props = {
 
 const AddFolderItem = (props: Props) => {
 
+    const [folderTitle, setfolderTitle] = useState("");
+
     // on enter/submit form
     const onSubmitName = (e: FormEvent) => {
         e.preventDefault();
-        console.log("data e :: ", e.target);
-        props.onSubmit("data e ::");
+
+        props.onSubmit(folderTitle.trim());
+    }
+
+    // on input change text
+    const onInputChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+        setfolderTitle(e.target.value);
     }
 
     return (
         <li className="first-col-item-container selected-col">
+            <PreLiIcon />
+
             <form onSubmit={onSubmitName}>
-                <input type="text" className="add-folder-inputbox" />
+                <input
+                    type="text"
+                    className="add-folder-inputbox"
+                    onChange={onInputChangeName}
+                    autoFocus
+                />
             </form>
         </li>
     )

@@ -7,10 +7,29 @@ import {
 } from './NoteTypes';
 import {
     addNote, updateNote, deleteNote,
+    addFolder, updateFolder, deleteFolder,
     selectCategory, selectNote,
 } from './NotesReducer';
 
 // Worker sagas
+
+// folder actions saga
+function* addFolderSaga(action: PayloadAction<{ name: string }>) {
+    const { name } = action.payload;
+    yield put(addFolder({ name }));
+}
+
+function* updateFolderSaga(action: PayloadAction<{ categoryIndex: number; noteIndex: number; note: Partial<Content> }>) {
+    const { categoryIndex, noteIndex, note } = action.payload;
+    yield put(updateNote({ categoryIndex, noteIndex, note }));
+}
+
+function* deleteFolderSaga(action: PayloadAction<{ categoryIndex: number; noteIndex: number }>) {
+    const { categoryIndex, noteIndex } = action.payload;
+    yield put(deleteNote({ categoryIndex, noteIndex }));
+}
+
+// note actions saga
 function* addNoteSaga(action: PayloadAction<{ categoryIndex: number; note: Partial<Content> }>) {
     const { categoryIndex, note } = action.payload;
     yield put(addNote({ categoryIndex, note }));
@@ -45,9 +64,9 @@ function* noteSaga() {
 
     yield takeEvery(SELECT_CATEGORY, selectCategorySaga);
 
-    yield takeEvery(ADD_CATEGORY, addNoteSaga);
-    yield takeEvery(DELETE_CATEGORY, deleteNoteSaga);
-    yield takeEvery(UPDATE_CATEGORY, updateNoteSaga);
+    yield takeEvery(ADD_CATEGORY, addFolderSaga);
+    yield takeEvery(DELETE_CATEGORY, deleteFolderSaga);
+    yield takeEvery(UPDATE_CATEGORY, updateFolderSaga);
 }
 
 export default noteSaga;

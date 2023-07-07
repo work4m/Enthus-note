@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { IconFolderPlus } from '@tabler/icons-react';
 
 import { RootState } from "../store/Store";
-import { SELECT_CATEGORY } from "../store/Note/NoteTypes";
+import { SELECT_CATEGORY, ADD_CATEGORY } from "../store/Note/NoteTypes";
 import AddFolderItem from "./AddFolderItem";
+import PreLiIcon from "./PreLiIcon";
 
 function FirstCol() {
 
@@ -39,6 +40,8 @@ function FirstCol() {
 
         return (
             <li key={`${index}_cat_`} className={containerClassList} onClick={() => select_category(index)}>
+                <PreLiIcon />
+
                 {categoryName}
             </li>
         );
@@ -46,7 +49,13 @@ function FirstCol() {
 
     // after press enter folder adding time
     const onAddFolderSubmit = (data: string) => {
+        // hide add folder modal
         setAddNewFolder(false);
+
+        if (data) {
+            dispatch({ type: ADD_CATEGORY, payload: { name: data } });
+            dispatch({ type: SELECT_CATEGORY, payload: (note_data.length) });
+        }
     }
 
     return (
@@ -72,7 +81,7 @@ function FirstCol() {
             <div className="bottom-container">
                 <div />
 
-                <div className="add-item-icon" onClick={addFolderPress}>
+                <div className="add-item-icon" onClick={addFolderPress} title="Add Folder">
                     <IconFolderPlus size={28} />
                 </div>
             </div>
