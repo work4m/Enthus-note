@@ -63,14 +63,13 @@ export const noteSlice = createSlice({
         // ! NOTES
         // add notes
         addNote: (
-            state,
-            action: PayloadAction<{ categoryIndex: number; note: Partial<Content> }>
+            state
         ) => {
-            const { categoryIndex, note } = action.payload;
-            const { title = '', description = '' } = note;
+            const categoryIndex = state.selectedCategory || 0;
+
             state.note_data[categoryIndex].content.push({
-                title,
-                description,
+                title: "",
+                description: "",
                 modifyDate: new Date().toString(),
             });
         },

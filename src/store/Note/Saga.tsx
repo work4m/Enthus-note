@@ -31,8 +31,7 @@ function* deleteFolderSaga(action: PayloadAction<{ categoryIndex: number; noteIn
 
 // note actions saga
 function* addNoteSaga(action: PayloadAction<{ categoryIndex: number; note: Partial<Content> }>) {
-    const { categoryIndex, note } = action.payload;
-    yield put(addNote({ categoryIndex, note }));
+    yield put(addNote());
 }
 
 function* updateNoteSaga(action: PayloadAction<{ categoryIndex: number; noteIndex: number; note: Partial<Content> }>) {

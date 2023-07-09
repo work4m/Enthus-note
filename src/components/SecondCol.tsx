@@ -45,6 +45,8 @@ function SecondCol() {
 
     // press on create note
     const createNotePress = () => {
+        dispatch({ type: "ADD_NOTE" });
+        dispatch({ type: SELECT_NOTE, payload: note_data[selectedCategory].content.length });
     }
 
     return (
