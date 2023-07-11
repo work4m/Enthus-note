@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { IconFolderPlus } from '@tabler/icons-react';
 
 import { RootState } from "../store/Store";
-import { SELECT_CATEGORY, ADD_CATEGORY, SELECT_NOTE, DELETE_CATEGORY } from "../store/Note/NoteTypes";
+import { SELECT_CATEGORY, ADD_CATEGORY, DELETE_CATEGORY } from "../store/Note/NoteTypes";
 import AddFolderItem from "./AddFolderItem";
 import PreLiIcon from "./PreLiIcon";
+import FullPageModal from "./FullPageModal";
 
 function FirstCol() {
 
@@ -15,9 +16,10 @@ function FirstCol() {
 
     // status for is add folder component show
     const [isAddNewFolder, setAddNewFolder] = useState<boolean>(false);
-
     // status for editing on/off flag
     const [isDeleteStatusOn, setisDeleteStatusOn] = useState<boolean>(false);
+    // state for selected index for delete
+    const [selectedDeletedIndex, setselectedDeletedIndex] = useState<number>(-1);
 
     // add new folder press
     const addFolderPress = () => {
@@ -33,7 +35,7 @@ function FirstCol() {
 
     // press on item for delete folder
     const deleteFolder = (folderIndex: number) => {
-        dispatch({ type: DELETE_CATEGORY, payload: { categoryIndex: folderIndex } });
+        setselectedDeletedIndex(folderIndex);
     }
 
     // render items for perticular item
@@ -79,12 +81,18 @@ function FirstCol() {
     // after press on edit button
     const onEditFolderPress = () => {
         setisDeleteStatusOn(true);
-        dispatch({ type: SELECT_NOTE, payload: undefined });
-        dispatch({ type: SELECT_CATEGORY, payload: undefined });
+        dispatch({ type: SELECT_CATEGORY, payload: 0 });
     }
 
     // edit button visible for important folder
     const isEditableFolders = (): boolean => note_data.length > 1;
+
+    // selected category for delete
+    const pressOnDeleteModal = () => {
+        dispatch({ type: DELETE_CATEGORY, payload: { categoryIndex: selectedDeletedIndex } });
+        setselectedDeletedIndex(-1);
+        setisDeleteStatusOn(false);
+    }
 
     return (
         <div
@@ -118,6 +126,12 @@ function FirstCol() {
                     <IconFolderPlus size={28} />
                 </div>
             </div>
+
+            <FullPageModal
+                title={`Are you sure you want to delete “${note_data[selectedDeletedIndex]?.name}”?`}
+                description={"All notes and any subfolders will be deleted."}
+                visible={selectedDeletedIndex > -1}
+            />
         </div>
     )
 }
