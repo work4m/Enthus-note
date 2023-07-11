@@ -24,9 +24,9 @@ function* updateFolderSaga(action: PayloadAction<{ categoryIndex: number; noteIn
     yield put(updateNote({ categoryIndex, noteIndex, note }));
 }
 
-function* deleteFolderSaga(action: PayloadAction<{ categoryIndex: number; noteIndex: number }>) {
-    const { categoryIndex, noteIndex } = action.payload;
-    yield put(deleteNote({ categoryIndex, noteIndex }));
+function* deleteFolderSaga(action: PayloadAction<{ categoryIndex: number }>) {
+    const { categoryIndex } = action.payload;
+    yield put(deleteFolder({ categoryIndex }));
 }
 
 // note actions saga
@@ -44,12 +44,12 @@ function* deleteNoteSaga(action: PayloadAction<{ categoryIndex: number; noteInde
     yield put(deleteNote({ categoryIndex, noteIndex }));
 }
 
-function* selectNoteSaga(action: PayloadAction<number>) {
+function* selectNoteSaga(action: PayloadAction<number | undefined>) {
     yield put(selectNote(action.payload));
 }
 
 // category saga
-function* selectCategorySaga(action: PayloadAction<number>) {
+function* selectCategorySaga(action: PayloadAction<number | undefined>) {
     yield put(selectCategory(action.payload));
 }
 

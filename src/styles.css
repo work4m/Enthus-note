@@ -17,6 +17,8 @@
   
   --selected-dark-yellow: #d1a400da;
 
+  --hover-red: rgb(255, 47, 47);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

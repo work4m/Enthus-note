@@ -1,7 +1,25 @@
 import { memo } from 'react';
-import { IconFolder } from '@tabler/icons-react';
+import { IconCircleMinus, IconFolder } from '@tabler/icons-react';
 
-const PreLiIcon = () => {
+interface PreLiIconProps {
+    isDelete?: boolean,
+    onDeletePress?: () => void,
+    isFirst?: boolean
+}
+
+const PreLiIcon = ({ isDelete, onDeletePress, isFirst }: PreLiIconProps) => {
+
+    if (isDelete && !isFirst) {
+        return (
+            <IconCircleMinus
+                className='prelist-folder-icon focus-on'
+                size={"18px"}
+                stroke={"1.7px"}
+                onClick={onDeletePress}
+            />
+        )
+    }
+
     return (
         <IconFolder
             className='prelist-folder-icon'

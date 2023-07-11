@@ -10,25 +10,9 @@ export interface NoteState {
 const initialState: NoteState = {
     note_data: [
         {
-            name: "Note 1",
-            content: [
-                {
-                    title: "Note ||",
-                    description: "all data found",
-                    modifyDate: "Wed Jul 05 2023 21:54:36 GMT+0530 (India Standard Time)"
-                }
-            ]
-        },
-        {
-            name: "Note 2",
-            content: [
-                {
-                    title: "Note ||",
-                    description: "all data found 1",
-                    modifyDate: "Wed Jul 05 2023 21:54:36 GMT+0530 (India Standard Time)"
-                }
-            ]
-        },
+            name: "Important",
+            content: []
+        }
     ],
     selectedCategory: undefined,
     selectedNote: undefined
@@ -58,7 +42,15 @@ export const noteSlice = createSlice({
         updateFolder: () => { },
 
         // delete folder
-        deleteFolder: () => { },
+        deleteFolder: (
+            state,
+            action: PayloadAction<{
+                categoryIndex: number;
+            }>
+        ) => {
+            const { categoryIndex } = action.payload;
+            state.note_data.splice(categoryIndex, 1);
+        },
 
         // ! NOTES
         // add notes
@@ -105,13 +97,13 @@ export const noteSlice = createSlice({
         },
 
         // select category
-        selectCategory: (state, action: PayloadAction<number>) => {
+        selectCategory: (state, action: PayloadAction<number | undefined>) => {
             state.selectedCategory = action.payload;
             state.selectedNote = undefined;
         },
 
         // select category
-        selectNote: (state, action: PayloadAction<number>) => {
+        selectNote: (state, action: PayloadAction<number | undefined>) => {
             state.selectedNote = action.payload;
         }
     },

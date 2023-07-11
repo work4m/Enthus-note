@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IconFolderPlus } from '@tabler/icons-react';
 
 import { RootState } from "../store/Store";
-import { SELECT_CATEGORY, ADD_CATEGORY } from "../store/Note/NoteTypes";
+import { SELECT_CATEGORY, ADD_CATEGORY, SELECT_NOTE, DELETE_CATEGORY } from "../store/Note/NoteTypes";
 import AddFolderItem from "./AddFolderItem";
 import PreLiIcon from "./PreLiIcon";
 
@@ -16,6 +16,9 @@ function FirstCol() {
     // status for is add folder component show
     const [isAddNewFolder, setAddNewFolder] = useState<boolean>(false);
 
+    // status for editing on/off flag
+    const [isDeleteStatusOn, setisDeleteStatusOn] = useState<boolean>(false);
+
     // add new folder press
     const addFolderPress = () => {
         setAddNewFolder(true);
@@ -23,7 +26,14 @@ function FirstCol() {
 
     // for select main folder
     const select_category = (index: number) => {
+        if (isDeleteStatusOn) return;
+
         dispatch({ type: SELECT_CATEGORY, payload: index });
+    }
+
+    // press on item for delete folder
+    const deleteFolder = (folderIndex: number) => {
+        dispatch({ type: DELETE_CATEGORY, payload: { categoryIndex: folderIndex } });
     }
 
     // render items for perticular item
@@ -39,8 +49,16 @@ function FirstCol() {
         }
 
         return (
-            <li key={`${index}_cat_`} className={containerClassList} onClick={() => select_category(index)}>
-                <PreLiIcon />
+            <li
+                key={`${index}_cat_`}
+                className={containerClassList}
+                onClick={() => select_category(index)}
+            >
+                <PreLiIcon
+                    isDelete={isDeleteStatusOn}
+                    onDeletePress={() => deleteFolder(index)}
+                    isFirst={index === 0}
+                />
 
                 {categoryName}
             </li>
@@ -57,6 +75,16 @@ function FirstCol() {
             dispatch({ type: SELECT_CATEGORY, payload: (note_data.length) });
         }
     }
+
+    // after press on edit button
+    const onEditFolderPress = () => {
+        setisDeleteStatusOn(true);
+        dispatch({ type: SELECT_NOTE, payload: undefined });
+        dispatch({ type: SELECT_CATEGORY, payload: undefined });
+    }
+
+    // edit button visible for important folder
+    const isEditableFolders = (): boolean => note_data.length > 1;
 
     return (
         <div
@@ -79,7 +107,12 @@ function FirstCol() {
 
             {/* bottom bar */}
             <div className="bottom-container">
-                <div />
+                <p
+                    className={"edit-text-button" + (isEditableFolders() ? "" : " edit-text-button-disable")}
+                    onClick={onEditFolderPress}
+                >
+                    Edit
+                </p>
 
                 <div className="add-item-icon" onClick={addFolderPress} title="Add Folder">
                     <IconFolderPlus size={28} />
