@@ -60,14 +60,17 @@ body {
 
 .full-screen-modal-container {
   background-color: white;
-  width: 40%;
+  width: 36rem;
   border-radius: var(--border-radius);
-  padding: 10px;
+  padding: 22px;
 }
 
 .full-screen-modal-icon {
-  height: 100px;
+  height: 80px;
+  width: 80px;
   object-fit: contain;
+  position: relative;
+  bottom: 12px;
 }
 
 .full-screen-title-container {
@@ -75,7 +78,30 @@ body {
   flex-direction: row;
 }
 
+.full-screen-title-container p {
+  color: gray;
+  margin-top: 4px;
+}
+
 .full-screen-button-container {
   display: flex;
   justify-content: flex-end;
+}
+
+.vertical-bar-between-button {
+  height: 1.2rem;
+  width: 1px;
+  background-color: var(--first-dark-gray);
+  margin-inline: 1rem;
+}
+
+.common-button {
+  background-color: transparent;
+  border-width: 0;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.button-bold {
+  font-weight: 700;
 }

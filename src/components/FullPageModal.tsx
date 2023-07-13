@@ -1,9 +1,12 @@
 import ICON from "./../assets/bg_logo.png";
+import Button from "./Button";
 
 interface Props {
     title: string,
     description: string
-    visible: boolean
+    visible: boolean,
+    onCancel?: () => void,
+    onSubmit?: () => void
 }
 
 const FullPageModal = (props: Props) => {
@@ -21,15 +24,18 @@ const FullPageModal = (props: Props) => {
                     {/* top right portion */}
                     <div>
                         <h3>{props.title}</h3>
+
                         <p>{props.description}</p>
                     </div>
                 </div>
 
                 {/* button bottom portion */}
                 <div className="full-screen-button-container">
-                    <button>Cancel</button>
+                    <Button title="Cancel" onClick={props?.onCancel} />
 
-                    <button>{"button"}</button>
+                    <div className="vertical-bar-between-button" />
+
+                    <Button title="Delete Folder" bold onClick={props?.onSubmit} />
                 </div>
             </div>
         </div>

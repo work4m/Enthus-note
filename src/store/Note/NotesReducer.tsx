@@ -10,7 +10,7 @@ export interface NoteState {
 const initialState: NoteState = {
     note_data: [
         {
-            name: "Important",
+            name: "General",
             content: []
         }
     ],

@@ -84,14 +84,24 @@ function FirstCol() {
         dispatch({ type: SELECT_CATEGORY, payload: 0 });
     }
 
+    // desable modal for delete
+    const disableDeleteModal = () => {
+        setselectedDeletedIndex(-1);
+        setisDeleteStatusOn(false);
+    }
+
     // edit button visible for important folder
     const isEditableFolders = (): boolean => note_data.length > 1;
 
     // selected category for delete
     const pressOnDeleteModal = () => {
         dispatch({ type: DELETE_CATEGORY, payload: { categoryIndex: selectedDeletedIndex } });
-        setselectedDeletedIndex(-1);
-        setisDeleteStatusOn(false);
+        disableDeleteModal();
+    }
+
+    // on delete cancel button press
+    const pressOnCancelModal = () => {
+        disableDeleteModal();
     }
 
     return (
@@ -131,6 +141,8 @@ function FirstCol() {
                 title={`Are you sure you want to delete “${note_data[selectedDeletedIndex]?.name}”?`}
                 description={"All notes and any subfolders will be deleted."}
                 visible={selectedDeletedIndex > -1}
+                onCancel={pressOnCancelModal}
+                onSubmit={pressOnDeleteModal}
             />
         </div>
     )
