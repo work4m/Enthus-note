@@ -36,7 +36,7 @@ function FirstCol() {
 
     // rename folder selection
     const rename_select_category = (catId: number) => {
-        setselectedEditId(catId);
+        if (isEditingStatusOn) setselectedEditId(catId);
     }
 
     // press on item for delete folder
@@ -115,7 +115,7 @@ function FirstCol() {
                 <AddFolderItem
                     key={`${index}_cat_`}
                     onSubmit={(data) => onFolderNameUpdate(catId, data)}
-                    // onBlur={onBlurEditingFolder}
+                    onBlur={onBlurEditingFolder}
                     initialValue={categoryName}
                 />
             )

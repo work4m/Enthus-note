@@ -24,7 +24,7 @@ const initialState: NoteState = {
     selectedNote: -1,
 
     latestNewFolderNumber: 0,
-    latestNewNoteNumber: 0,
+    latestNewNoteNumber: -1,
 }
 
 export const noteSlice = createSlice({
