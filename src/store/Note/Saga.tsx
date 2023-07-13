@@ -40,17 +40,16 @@ function* updateNoteSaga(action: PayloadAction<{ categoryIndex: number; noteInde
     yield put(updateNote({ categoryIndex, noteIndex, note }));
 }
 
-function* deleteNoteSaga(action: PayloadAction<{ categoryIndex: number; noteIndex: number }>) {
-    const { categoryIndex, noteIndex } = action.payload;
-    yield put(deleteNote({ categoryIndex, noteIndex }));
+function* deleteNoteSaga() {
+    yield put(deleteNote());
 }
 
-function* selectNoteSaga(action: PayloadAction<number | undefined>) {
+function* selectNoteSaga(action: PayloadAction<number>) {
     yield put(selectNote(action.payload));
 }
 
 // category saga
-function* selectCategorySaga(action: PayloadAction<number | undefined>) {
+function* selectCategorySaga(action: PayloadAction<number>) {
     yield put(selectCategory(action.payload));
 }
 

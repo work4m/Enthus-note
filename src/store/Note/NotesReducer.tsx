@@ -3,8 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface NoteState {
     note_data: Category[];
-    selectedCategory?: number;
-    selectedNote?: number;
+    selectedCategory: number;
+    selectedNote: number;
 }
 
 const initialState: NoteState = {
@@ -14,8 +14,8 @@ const initialState: NoteState = {
             content: []
         }
     ],
-    selectedCategory: undefined,
-    selectedNote: undefined
+    selectedCategory: -1,
+    selectedNote: -1
 }
 
 export const noteSlice = createSlice({
@@ -99,20 +99,24 @@ export const noteSlice = createSlice({
         // delete notes
         deleteNote: (
             state,
-            action: PayloadAction<{ categoryIndex: number; noteIndex: number }>
         ) => {
-            const { categoryIndex, noteIndex } = action.payload;
-            state.note_data[categoryIndex].content.splice(noteIndex, 1);
+            const selectedFolderIndex = state.selectedCategory;
+            const selectedNoteIndex = state.selectedNote;
+            
+            if (selectedFolderIndex > -1 && selectedNoteIndex > -1) {
+                state.note_data[selectedFolderIndex].content.splice(selectedNoteIndex, 1);
+                state.selectedNote = -1;
+            }
         },
 
         // select category
-        selectCategory: (state, action: PayloadAction<number | undefined>) => {
+        selectCategory: (state, action: PayloadAction<number>) => {
             state.selectedCategory = action.payload;
-            state.selectedNote = undefined;
+            state.selectedNote = -1;
         },
 
         // select category
-        selectNote: (state, action: PayloadAction<number | undefined>) => {
+        selectNote: (state, action: PayloadAction<number>) => {
             state.selectedNote = action.payload;
         }
     },

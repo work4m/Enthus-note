@@ -3,7 +3,8 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { RootState } from "../store/Store";
 import EmptyData from "./EmptyData";
-import { UPDATE_NOTE } from "../store/Note/NoteTypes";
+import { DELETE_NOTE, UPDATE_NOTE } from "../store/Note/NoteTypes";
+import MainColHeader from "./MainColHeader";
 
 // default note save time in ms
 const DEFAULT_SAVE_TIME = 500;
@@ -30,22 +31,35 @@ function MainCol() {
         });
     }, DEFAULT_SAVE_TIME);
 
+    // delete button press
+    const onPressDeleteNoteItem = () => {
+        dispatch({ type: DELETE_NOTE });
+    }
+
     return (
         <div
             className='column main-column'
         >
             {
-                (selectedCategory == null || selectedNote == null)
+                (selectedCategory == -1 || selectedNote == -1)
                     ?
                     <EmptyData />
                     :
-                    <textarea
-                        className="main-col-textarea"
-                        placeholder="Enter text here"
-                        defaultValue={note_data[selectedCategory]?.content[selectedNote]?.description}
-                        onChange={x => debouncedValue(x.target.value)}
-                    >
-                    </textarea>
+                    <>
+                        {/* header */}
+                        <MainColHeader
+                            onDeletePress={onPressDeleteNoteItem}
+                        />
+
+                        {/* text edit area */}
+                        <textarea
+                            className="main-col-textarea"
+                            placeholder="Enter text here"
+                            defaultValue={note_data[selectedCategory]?.content[selectedNote]?.description}
+                            onChange={x => debouncedValue(x.target.value)}
+                        >
+                        </textarea>
+                    </>
             }
         </div>
     )
