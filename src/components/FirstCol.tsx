@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IconFolderPlus } from '@tabler/icons-react';
 
 import { RootState } from "../store/Store";
-import { SELECT_CATEGORY, ADD_CATEGORY, DELETE_CATEGORY } from "../store/Note/NoteTypes";
+import { SELECT_CATEGORY, ADD_CATEGORY, DELETE_CATEGORY, UPDATE_CATEGORY } from "../store/Note/NoteTypes";
 import AddFolderItem from "./AddFolderItem";
 import PreLiIcon from "./PreLiIcon";
 import FullPageModal from "./FullPageModal";
@@ -17,9 +17,11 @@ function FirstCol() {
     // status for is add folder component show
     const [isAddNewFolder, setAddNewFolder] = useState<boolean>(false);
     // status for editing on/off flag
-    const [isDeleteStatusOn, setisDeleteStatusOn] = useState<boolean>(false);
+    const [isEditingStatusOn, setisEditingStatusOn] = useState<boolean>(false);
     // state for selected index for delete
     const [selectedDeletedIndex, setselectedDeletedIndex] = useState<number>(-1);
+    // state for selected index for delete
+    const [selectedEditIndex, setselectedEditIndex] = useState<number>(-1);
 
     // add new folder press
     const addFolderPress = () => {
@@ -28,7 +30,10 @@ function FirstCol() {
 
     // for select main folder
     const select_category = (index: number) => {
-        if (isDeleteStatusOn) return;
+        if (isEditingStatusOn) {
+            setselectedEditIndex(index);
+            return;
+        };
 
         dispatch({ type: SELECT_CATEGORY, payload: index });
     }
@@ -36,35 +41,6 @@ function FirstCol() {
     // press on item for delete folder
     const deleteFolder = (folderIndex: number) => {
         setselectedDeletedIndex(folderIndex);
-    }
-
-    // render items for perticular item
-    const column_item = ({ categoryName, index }: {
-        categoryName: string, index: number
-    }) => {
-        const isSelected = () => index === selectedCategory;
-
-        let containerClassList = "first-col-item-container";
-
-        if (isSelected() && !isAddNewFolder) {
-            containerClassList += " selected-col"
-        }
-
-        return (
-            <li
-                key={`${index}_cat_`}
-                className={containerClassList}
-                onClick={() => select_category(index)}
-            >
-                <PreLiIcon
-                    isDelete={isDeleteStatusOn}
-                    onDeletePress={() => deleteFolder(index)}
-                    isFirst={index === 0}
-                />
-
-                {categoryName}
-            </li>
-        );
     }
 
     // after press enter folder adding time
@@ -78,16 +54,26 @@ function FirstCol() {
         }
     }
 
+    // after blur enter folder adding time
+    const onBlurEditingFolder = () => {
+        compliteEditProcess();
+    }
+
     // after press on edit button
     const onEditFolderPress = () => {
-        setisDeleteStatusOn(true);
-        dispatch({ type: SELECT_CATEGORY, payload: 0 });
+        if (isEditingStatusOn) {
+            compliteEditProcess();
+        } else {
+            setisEditingStatusOn(true);
+            dispatch({ type: SELECT_CATEGORY, payload: 0 });
+        }
     }
 
     // desable modal for delete
-    const disableDeleteModal = () => {
+    const compliteEditProcess = () => {
         setselectedDeletedIndex(-1);
-        setisDeleteStatusOn(false);
+        setselectedEditIndex(-1);
+        setisEditingStatusOn(false);
     }
 
     // edit button visible for important folder
@@ -96,12 +82,59 @@ function FirstCol() {
     // selected category for delete
     const pressOnDeleteModal = () => {
         dispatch({ type: DELETE_CATEGORY, payload: { categoryIndex: selectedDeletedIndex } });
-        disableDeleteModal();
+        compliteEditProcess();
     }
 
     // on delete cancel button press
     const pressOnCancelModal = () => {
-        disableDeleteModal();
+        compliteEditProcess();
+    }
+
+    // folder name update
+    const onFolderNameUpdate = (folderIndex: number, updatedName: string) => {
+        dispatch({ type: UPDATE_CATEGORY, payload: { categoryIndex: folderIndex, updatedName } });
+        compliteEditProcess();
+    }
+
+    // render items for perticular item
+    const column_item = ({ categoryName, index }: {
+        categoryName: string, index: number
+    }) => {
+        const isSelected = () => index === selectedCategory;
+
+        let containerClassList = "first-col-item-container";
+
+        // enable selected styles
+        if (isSelected() && !isAddNewFolder) {
+            containerClassList += " selected-col"
+        }
+
+        // edit selected item
+        if (selectedEditIndex === index) {
+            return (
+                <AddFolderItem
+                    onSubmit={(data) => onFolderNameUpdate(index, data)}
+                    onBlur={onBlurEditingFolder}
+                    initialValue={categoryName}
+                />
+            )
+        }
+
+        return (
+            <li
+                key={`${index}_cat_`}
+                className={containerClassList}
+                onClick={() => select_category(index)}
+            >
+                <PreLiIcon
+                    isDelete={isEditingStatusOn}
+                    onDeletePress={() => deleteFolder(index)}
+                    isFirst={index === 0}
+                />
+
+                {categoryName}
+            </li>
+        );
     }
 
     return (
@@ -109,6 +142,7 @@ function FirstCol() {
             className='column first-column'
         >
             <ul>
+                {/* notes list */}
                 {
                     note_data?.map((category, index) => column_item({ categoryName: category.name, index }))
                 }
@@ -117,7 +151,9 @@ function FirstCol() {
                 {
                     isAddNewFolder
                         ?
-                        <AddFolderItem onSubmit={onAddFolderSubmit} />
+                        <AddFolderItem
+                            onSubmit={onAddFolderSubmit}
+                        />
                         :
                         null
                 }
@@ -129,7 +165,7 @@ function FirstCol() {
                     className={"edit-text-button" + (isEditableFolders() ? "" : " edit-text-button-disable")}
                     onClick={onEditFolderPress}
                 >
-                    Edit
+                    {isEditingStatusOn ? "Done" : "Edit"}
                 </p>
 
                 <div className="add-item-icon" onClick={addFolderPress} title="Add Folder">

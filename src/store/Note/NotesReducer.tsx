@@ -39,7 +39,16 @@ export const noteSlice = createSlice({
         },
 
         // update folder
-        updateFolder: () => { },
+        updateFolder: (
+            state,
+            action: PayloadAction<{
+                categoryIndex: number,
+                updatedName: string
+            }>
+        ) => {
+            const { categoryIndex, updatedName } = action.payload;
+            state.note_data[categoryIndex].name = updatedName;
+        },
 
         // delete folder
         deleteFolder: (

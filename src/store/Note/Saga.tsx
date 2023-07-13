@@ -3,7 +3,8 @@ import { PayloadAction } from '@reduxjs/toolkit';
 
 import {
     ADD_NOTE, DELETE_NOTE, UPDATE_NOTE,
-    ADD_CATEGORY, DELETE_CATEGORY, SELECT_CATEGORY, UPDATE_CATEGORY, SELECT_NOTE,
+    ADD_CATEGORY, DELETE_CATEGORY, UPDATE_CATEGORY,
+    SELECT_CATEGORY, SELECT_NOTE,
 } from './NoteTypes';
 import {
     addNote, updateNote, deleteNote,
@@ -19,9 +20,9 @@ function* addFolderSaga(action: PayloadAction<{ name: string }>) {
     yield put(addFolder({ name }));
 }
 
-function* updateFolderSaga(action: PayloadAction<{ categoryIndex: number; noteIndex: number; note: Partial<Content> }>) {
-    const { categoryIndex, noteIndex, note } = action.payload;
-    yield put(updateNote({ categoryIndex, noteIndex, note }));
+function* updateFolderSaga(action: PayloadAction<{ categoryIndex: number; updatedName: string }>) {
+    const { categoryIndex, updatedName } = action.payload;
+    yield put(updateFolder({ categoryIndex, updatedName }));
 }
 
 function* deleteFolderSaga(action: PayloadAction<{ categoryIndex: number }>) {
