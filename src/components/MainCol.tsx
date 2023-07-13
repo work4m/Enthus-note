@@ -20,8 +20,6 @@ function MainCol() {
     // change updateNote
     const debouncedValue = useDebouncedCallback((value: string) => {
         const payload = {
-            categoryIndex: selectedCategory,
-            noteIndex: selectedNote,
             note: { description: value }
         };
 

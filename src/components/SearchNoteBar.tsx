@@ -16,9 +16,14 @@ const SearchNoteBar = (props: Props) => {
 
   return (
     <div className="search-container">
-        <IconSearch  size={"20px"} stroke={"1px"} />
+      <IconSearch size={"20px"} stroke={"1px"} />
 
-        <input type="text" className="search-inputbox" onChange={searchTextChange} />
+      <input
+        type="text"
+        className="search-inputbox"
+        onChange={searchTextChange}
+        placeholder="Search"
+      />
     </div>
   )
 }

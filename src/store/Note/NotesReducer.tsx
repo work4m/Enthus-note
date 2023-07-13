@@ -3,8 +3,10 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface NoteState {
     note_data: Category[];
+
     selectedCategory: number;
     selectedNote: number;
+
     latestNewFolderNumber: number;
     latestNewNoteNumber: number;
 }
@@ -12,12 +14,15 @@ export interface NoteState {
 const initialState: NoteState = {
     note_data: [
         {
+            id: 0,
             name: "General",
             content: []
         }
     ],
+
     selectedCategory: -1,
     selectedNote: -1,
+
     latestNewFolderNumber: 0,
     latestNewNoteNumber: 0,
 }
@@ -34,10 +39,17 @@ export const noteSlice = createSlice({
         ) => {
             const { name } = action.payload;
 
+            const newFolderNumber = state.latestNewFolderNumber + 1;
+
             const newCategoryFolder: Category = {
+                id: newFolderNumber,
                 name,
                 content: []
             };
+
+            state.latestNewFolderNumber = newFolderNumber;
+
+            state.selectedCategory = newFolderNumber;
 
             state.note_data?.push(newCategoryFolder);
         },
@@ -46,23 +58,29 @@ export const noteSlice = createSlice({
         updateFolder: (
             state,
             action: PayloadAction<{
-                categoryIndex: number,
+                categoryId: number,
                 updatedName: string
             }>
         ) => {
-            const { categoryIndex, updatedName } = action.payload;
-            state.note_data[categoryIndex].name = updatedName;
+            const { categoryId, updatedName } = action.payload;
+
+            const findFolderIndex = state.note_data.findIndex(x => x.id === categoryId);
+
+            state.note_data[findFolderIndex].name = updatedName;
         },
 
         // delete folder
         deleteFolder: (
             state,
             action: PayloadAction<{
-                categoryIndex: number;
+                categoryId: number;
             }>
         ) => {
-            const { categoryIndex } = action.payload;
-            state.note_data.splice(categoryIndex, 1);
+            const { categoryId } = action.payload;
+
+            const findFolderIndex = state.note_data.findIndex(x => x.id === categoryId);
+
+            state.note_data.splice(findFolderIndex, 1);
         },
 
         // ! NOTES
@@ -72,26 +90,38 @@ export const noteSlice = createSlice({
         ) => {
             const categoryIndex = state.selectedCategory || 0;
 
+            const newNoteNumber = state.latestNewNoteNumber + 1;
+
             state.note_data[categoryIndex].content.push({
+                id: newNoteNumber,
                 title: "",
                 description: "",
                 modifyDate: new Date().toString(),
             });
+
+            state.latestNewNoteNumber = newNoteNumber;
+
+            state.selectedNote = newNoteNumber;
         },
 
         // update notes
         updateNote: (
             state,
             action: PayloadAction<{
-                categoryIndex: number;
-                noteIndex: number;
                 note: Partial<Content>;
             }>
         ) => {
-            const { categoryIndex, noteIndex, note } = action.payload;
+            const { note } = action.payload;
             const { title = '', description = '' } = note;
 
-            const currentChangeNote = state.note_data[categoryIndex].content[noteIndex];
+            const selectedFolderId = state.selectedCategory;
+            const selectedNoteId = state.selectedNote;
+
+            const findFolderIndex = state.note_data.findIndex(x => x.id === selectedFolderId);
+            
+            const findNoteIndex = state.note_data[findFolderIndex].content.findIndex(x => x.id === selectedNoteId);
+            
+            const currentChangeNote = state.note_data[findFolderIndex].content[findNoteIndex];
 
             if (title) currentChangeNote.title = title;
 
@@ -102,15 +132,17 @@ export const noteSlice = createSlice({
 
         // delete notes
         deleteNote: (
-            state,
+            state
         ) => {
-            const selectedFolderIndex = state.selectedCategory;
-            const selectedNoteIndex = state.selectedNote;
-            
-            if (selectedFolderIndex > -1 && selectedNoteIndex > -1) {
-                state.note_data[selectedFolderIndex].content.splice(selectedNoteIndex, 1);
-                state.selectedNote = -1;
-            }
+            const selectedFolderId = state.selectedCategory;
+            const selectedNoteId = state.selectedNote;
+
+            const findFolderIndex = state.note_data.findIndex(x => x.id === selectedFolderId);
+
+            const findNoteIndex = state.note_data[findFolderIndex].content.findIndex(x => x.id === selectedNoteId);
+
+            state.note_data[findFolderIndex].content.splice(findNoteIndex, 1);
+            state.selectedNote = -1;
         },
 
         // select category

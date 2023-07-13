@@ -19,9 +19,9 @@ function FirstCol() {
     // status for editing on/off flag
     const [isEditingStatusOn, setisEditingStatusOn] = useState<boolean>(false);
     // state for selected index for delete
-    const [selectedDeletedIndex, setselectedDeletedIndex] = useState<number>(-1);
+    const [selectedDeletedId, setselectedDeletedId] = useState<number>(-1);
     // state for selected index for delete
-    const [selectedEditIndex, setselectedEditIndex] = useState<number>(-1);
+    const [selectedEditId, setselectedEditId] = useState<number>(-1);
 
     // add new folder press
     const addFolderPress = () => {
@@ -29,18 +29,19 @@ function FirstCol() {
     }
 
     // for select main folder
-    const select_category = (index: number) => {
-        if (isEditingStatusOn) {
-            setselectedEditIndex(index);
-            return;
-        };
+    const select_category = (catId: number) => {
+        if (isEditingStatusOn) return;
+        dispatch({ type: SELECT_CATEGORY, payload: catId });
+    }
 
-        dispatch({ type: SELECT_CATEGORY, payload: index });
+    // rename folder selection
+    const rename_select_category = (catId: number) => {
+        setselectedEditId(catId);
     }
 
     // press on item for delete folder
-    const deleteFolder = (folderIndex: number) => {
-        setselectedDeletedIndex(folderIndex);
+    const deleteFolder = (folderId: number) => {
+        setselectedDeletedId(folderId);
     }
 
     // after press enter folder adding time
@@ -50,7 +51,6 @@ function FirstCol() {
 
         if (data) {
             dispatch({ type: ADD_CATEGORY, payload: { name: data } });
-            dispatch({ type: SELECT_CATEGORY, payload: (note_data.length) });
         }
     }
 
@@ -71,8 +71,8 @@ function FirstCol() {
 
     // desable modal for delete
     const compliteEditProcess = () => {
-        setselectedDeletedIndex(-1);
-        setselectedEditIndex(-1);
+        setselectedDeletedId(-1);
+        setselectedEditId(-1);
         setisEditingStatusOn(false);
     }
 
@@ -81,7 +81,7 @@ function FirstCol() {
 
     // selected category for delete
     const pressOnDeleteModal = () => {
-        dispatch({ type: DELETE_CATEGORY, payload: { categoryIndex: selectedDeletedIndex } });
+        dispatch({ type: DELETE_CATEGORY, payload: { categoryId: selectedDeletedId } });
         compliteEditProcess();
     }
 
@@ -91,16 +91,16 @@ function FirstCol() {
     }
 
     // folder name update
-    const onFolderNameUpdate = (folderIndex: number, updatedName: string) => {
-        dispatch({ type: UPDATE_CATEGORY, payload: { categoryIndex: folderIndex, updatedName } });
+    const onFolderNameUpdate = (folderId: number, updatedName: string) => {
+        dispatch({ type: UPDATE_CATEGORY, payload: { categoryId: folderId, updatedName } });
         compliteEditProcess();
     }
 
     // render items for perticular item
-    const column_item = ({ categoryName, index }: {
-        categoryName: string, index: number
+    const column_item = ({ categoryName, catId, index }: {
+        categoryName: string, catId: number, index: number
     }) => {
-        const isSelected = () => index === selectedCategory;
+        const isSelected = () => catId === selectedCategory;
 
         let containerClassList = "first-col-item-container";
 
@@ -110,11 +110,12 @@ function FirstCol() {
         }
 
         // edit selected item
-        if (selectedEditIndex === index) {
+        if (selectedEditId === catId) {
             return (
                 <AddFolderItem
-                    onSubmit={(data) => onFolderNameUpdate(index, data)}
-                    onBlur={onBlurEditingFolder}
+                    key={`${index}_cat_`}
+                    onSubmit={(data) => onFolderNameUpdate(catId, data)}
+                    // onBlur={onBlurEditingFolder}
                     initialValue={categoryName}
                 />
             )
@@ -124,15 +125,19 @@ function FirstCol() {
             <li
                 key={`${index}_cat_`}
                 className={containerClassList}
-                onClick={() => select_category(index)}
+                onClick={() => select_category(catId)}
             >
                 <PreLiIcon
                     isDelete={isEditingStatusOn}
-                    onDeletePress={() => deleteFolder(index)}
+                    onDeletePress={() => deleteFolder(catId)}
                     isFirst={index === 0}
                 />
 
-                {categoryName}
+                <p
+                    onClick={() => rename_select_category(catId)}
+                >
+                    {categoryName}
+                </p>
             </li>
         );
     }
@@ -144,7 +149,7 @@ function FirstCol() {
             <ul>
                 {/* notes list */}
                 {
-                    note_data?.map((category, index) => column_item({ categoryName: category.name, index }))
+                    note_data?.map((category, index) => column_item({ categoryName: category.name, catId: category.id, index }))
                 }
 
                 {/* when add new folder user have to show this add component */}
@@ -174,9 +179,9 @@ function FirstCol() {
             </div>
 
             <FullPageModal
-                title={`Are you sure you want to delete “${note_data[selectedDeletedIndex]?.name}”?`}
+                title={`Are you sure you want to delete “${note_data[selectedDeletedId]?.name}”?`}
                 description={"All notes and any subfolders will be deleted."}
-                visible={selectedDeletedIndex > -1}
+                visible={selectedDeletedId > -1}
                 onCancel={pressOnCancelModal}
                 onSubmit={pressOnDeleteModal}
             />

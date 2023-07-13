@@ -20,24 +20,24 @@ function* addFolderSaga(action: PayloadAction<{ name: string }>) {
     yield put(addFolder({ name }));
 }
 
-function* updateFolderSaga(action: PayloadAction<{ categoryIndex: number; updatedName: string }>) {
-    const { categoryIndex, updatedName } = action.payload;
-    yield put(updateFolder({ categoryIndex, updatedName }));
+function* updateFolderSaga(action: PayloadAction<{ categoryId: number; updatedName: string }>) {
+    const { categoryId, updatedName } = action.payload;
+    yield put(updateFolder({ categoryId, updatedName }));
 }
 
-function* deleteFolderSaga(action: PayloadAction<{ categoryIndex: number }>) {
-    const { categoryIndex } = action.payload;
-    yield put(deleteFolder({ categoryIndex }));
+function* deleteFolderSaga(action: PayloadAction<{ categoryId: number }>) {
+    const { categoryId } = action.payload;
+    yield put(deleteFolder({ categoryId }));
 }
 
 // note actions saga
-function* addNoteSaga(action: PayloadAction<{ categoryIndex: number; note: Partial<Content> }>) {
+function* addNoteSaga() {
     yield put(addNote());
 }
 
-function* updateNoteSaga(action: PayloadAction<{ categoryIndex: number; noteIndex: number; note: Partial<Content> }>) {
-    const { categoryIndex, noteIndex, note } = action.payload;
-    yield put(updateNote({ categoryIndex, noteIndex, note }));
+function* updateNoteSaga(action: PayloadAction<{ categoryId: number; noteId: number; note: Partial<Content> }>) {
+    const { note } = action.payload;
+    yield put(updateNote({ note }));
 }
 
 function* deleteNoteSaga() {
