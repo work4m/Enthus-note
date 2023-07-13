@@ -5,6 +5,8 @@ export interface NoteState {
     note_data: Category[];
     selectedCategory: number;
     selectedNote: number;
+    latestNewFolderNumber: number;
+    latestNewNoteNumber: number;
 }
 
 const initialState: NoteState = {
@@ -15,7 +17,9 @@ const initialState: NoteState = {
         }
     ],
     selectedCategory: -1,
-    selectedNote: -1
+    selectedNote: -1,
+    latestNewFolderNumber: 0,
+    latestNewNoteNumber: 0,
 }
 
 export const noteSlice = createSlice({
