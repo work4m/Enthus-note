@@ -3,7 +3,7 @@ name: Build Compotes app.
 on:
     push:
         branches:
-            - main
+            - release
 
 jobs:
     build:
