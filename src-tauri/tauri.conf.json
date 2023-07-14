@@ -7,8 +7,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "enenthus-notes",
-    "version": "0.0.0"
+    "productName": "enthus-notes",
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -37,7 +37,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "enenthus-notes",
+        "title": "enthus-notes",
         "width": 800,
         "height": 600,
         "minWidth": 300,

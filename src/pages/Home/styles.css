@@ -6,9 +6,26 @@
 
 .header-container {
     width: 100%;
-    padding: 0.7rem 1rem;
+    padding: 0rem 1rem;
     border-bottom: 1.8px solid var(--border-gray);
     background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+}
+
+.header-container > img {
+    height: 50px;
+    object-fit: contain;
+}
+
+.header-container > p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--first-dark-gray);
+}
+
+.header-container .note-text {
+    color: var(--selected-dark-yellow);
 }
 
 .bottom-main-container {

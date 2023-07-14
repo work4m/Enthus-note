@@ -1,8 +1,16 @@
+import LOGO from './../assets/bg_logo.png';
+
 function Header() {
     return (
-        <header className="header-container">
-            Header
-        </header>
+        <div className="header-container">
+            {/* logo */}
+            <img src={LOGO} alt="logo" />
+
+            {/* title */}
+            <p>
+                Enthus <span className="note-text">Notes</span>
+            </p>
+        </div>
     )
 }
 
