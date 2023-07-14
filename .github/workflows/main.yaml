@@ -2,9 +2,8 @@ name: Build Compotes app.
 
 on:
     push:
-        branches: [ rewrite ]
-    pull_request:
-        branches: [ rewrite ]
+        branches:
+            - main
 
 jobs:
     build:
