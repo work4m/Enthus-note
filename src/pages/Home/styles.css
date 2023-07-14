@@ -13,12 +13,12 @@
     align-items: center;
 }
 
-.header-container > img {
+.header-container>img {
     height: 50px;
     object-fit: contain;
 }
 
-.header-container > p {
+.header-container>p {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--first-dark-gray);
@@ -80,7 +80,7 @@
     background-color: var(--selected-color);
 }
 
-.first-col-item-container > p {
+.first-col-item-container>p {
     flex: 1;
 }
 
@@ -109,16 +109,17 @@
     bottom: 4px;
     font-size: 1.2rem;
     font-weight: 600;
-    cursor: pointer;
+    cursor: default;
+    color: var(--selected-color);
 }
 
-.edit-text-button:hover {
+.edit-text-button-enable:hover {
     color: var(--selected-dark-yellow);
 }
 
-.edit-text-button-disable {
-    color: var(--selected-color);
-    cursor: default;
+.edit-text-button-enable {
+    cursor: pointer;
+    color: initial;
 }
 
 .add-folder-inputbox {
@@ -228,14 +229,14 @@
     justify-content: center;
 }
 
-.main-col-bg-logo-container > div {
+.main-col-bg-logo-container>div {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.main-col-bg-logo-container > div > p {
+.main-col-bg-logo-container>div>p {
     color: var(--first-dark-gray);
 }
 

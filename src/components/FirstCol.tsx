@@ -61,6 +61,8 @@ function FirstCol() {
 
     // after press on edit button
     const onEditFolderPress = () => {
+        if (!isEditableFolders()) return;
+
         if (isEditingStatusOn) {
             compliteEditProcess();
         } else {
@@ -167,7 +169,7 @@ function FirstCol() {
             {/* bottom bar */}
             <div className="bottom-container">
                 <p
-                    className={"edit-text-button" + (isEditableFolders() ? "" : " edit-text-button-disable")}
+                    className={"edit-text-button" + (isEditableFolders() ? " edit-text-button-enable" : "")}
                     onClick={onEditFolderPress}
                 >
                     {isEditingStatusOn ? "Done" : "Edit"}
